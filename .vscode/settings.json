@@ -1,10 +1,16 @@
 {
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnPaste": false, // required
+  "editor.formatOnType": false, // required
+  "editor.formatOnSave": true, // optional
+  "editor.formatOnSaveMode": "file", // required to format on save
+  "files.autoSave": "off", // optional but recommended
   "json.schemas": [
     {
-      "fileMatch": [
-        "package.json"
-      ],
+      "fileMatch": ["package.json"],
       "url": "https://yuanqing.github.io/create-figma-plugin/figma-plugin.json"
     }
-  ]
+  ],
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": false
 }

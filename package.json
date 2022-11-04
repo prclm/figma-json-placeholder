@@ -8,11 +8,19 @@
     "@create-figma-plugin/build": "^2.1.4",
     "@create-figma-plugin/tsconfig": "^2.1.4",
     "@figma/plugin-typings": "1.54.0",
-    "typescript": "^4"
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "esbuild-plugin-eslint": "^0.1.1",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",
-    "watch": "build-figma-plugin --typecheck --watch"
+    "watch": "build-figma-plugin --typecheck --watch",
+    "eslint": "eslint src/"
   },
   "figma-plugin": {
     "editorType": [
