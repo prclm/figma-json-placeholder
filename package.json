@@ -8,6 +8,8 @@
     "@create-figma-plugin/build": "^2.1.4",
     "@create-figma-plugin/tsconfig": "^2.1.4",
     "@figma/plugin-typings": "1.54.0",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "esbuild-plugin-eslint": "^0.1.1",
@@ -28,6 +30,7 @@
     ],
     "id": "prclm/json-placeholder-components",
     "name": "{JSON}Placeholder Components",
-    "main": "src/main.ts"
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx"
   }
 }
