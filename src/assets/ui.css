@@ -1,0 +1,8 @@
+body { 
+    overflow: overlay;
+    scrollbar-gutter: stable both-sides;
+    scrollbar-width: thin;
+}
+#plugin-root {
+    width: 100vw; /** Fix: prevent window shrink on RESIZE_WINDOW Event  **/
+}

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Fragment, h } from 'preact'
+import { h, Component, createRef } from 'preact'
 import {
   render,
   Container,
@@ -7,21 +7,45 @@ import {
   VerticalSpace,
   Divider,
 } from '@create-figma-plugin/ui'
-import { DevTools } from './components/devtools'
+import { emit } from '@create-figma-plugin/utilities'
+import { DevTools } from './components/DevTools'
+import '!./assets/ui.css'
 
-function Plugin(props: { greeting: string }) {
-  return (
-    <Fragment>
-      <Container space="medium">
-        <VerticalSpace space="medium" />
-        <Text>Hallo {props.greeting}</Text>
-        <VerticalSpace space="medium" />
-      </Container>
+type PluginProps = {
+  greeting: string
+}
+class Plugin extends Component<PluginProps> {
+  rootRef = createRef()
 
-      <Divider />
-      <DevTools />
-    </Fragment>
-  )
+  constructor(props: PluginProps) {
+    super(props)
+  }
+
+  componentDidMount() {
+    const rootEl = this.rootRef.current
+    const outputsize = () =>
+      emit('RESIZE_WINDOW', {
+        width: rootEl.offsetWidth,
+        height: rootEl.offsetHeight,
+      })
+    outputsize()
+    new ResizeObserver(outputsize).observe(rootEl)
+  }
+
+  render() {
+    return (
+      <div ref={this.rootRef} id="plugin-root">
+        <Container space="medium">
+          <VerticalSpace space="medium" />
+          <Text>Hallo {this.props.greeting}</Text>
+          <VerticalSpace space="medium" />
+        </Container>
+
+        <Divider />
+        <DevTools />
+      </div>
+    )
+  }
 }
 
-export default render(Plugin)
+export default render((props: PluginProps) => <Plugin {...props} />)

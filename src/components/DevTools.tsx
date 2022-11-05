@@ -1,11 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
-import {
-  Disclosure,
-  IconButton,
-  IconEyedropper32,
-} from '@create-figma-plugin/ui'
+import { Disclosure, IconButton, IconCode32 } from '@create-figma-plugin/ui'
 import { emit } from '@create-figma-plugin/utilities'
 
 export function DevTools() {
@@ -24,9 +20,9 @@ export function DevTools() {
       title="Dev Tool"
     >
       <div style={styleFlexBox}>
-        <span>Inspect Selection:</span>
+        <span>Console.log() Selection:</span>
         <IconButton onClick={() => emit('LOG_SELECTED')}>
-          <IconEyedropper32 />
+          <IconCode32 />
         </IconButton>
       </div>
     </Disclosure>
