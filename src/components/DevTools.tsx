@@ -5,8 +5,7 @@ import { Disclosure, IconButton, IconCode32 } from '@create-figma-plugin/ui'
 import { emit } from '@create-figma-plugin/utilities'
 
 export function DevTools() {
-  const initOpen = true
-  const [open, setOpen] = useState<boolean>(initOpen)
+  const [open, setOpen] = useState<boolean>(false)
 
   const styleFlexBox = {
     display: 'flex',
@@ -15,13 +14,13 @@ export function DevTools() {
   }
   return (
     <Disclosure
-      onClick={() => setOpen(!(open === initOpen))}
+      onClick={() => setOpen(open ? false : true)}
       open={open}
       title="Dev Tool"
     >
       <div style={styleFlexBox}>
         <span>Console.log() Selection:</span>
-        <IconButton onClick={() => emit('LOG_SELECTED')}>
+        <IconButton onClick={() => emit('LOG_SELECTION')}>
           <IconCode32 />
         </IconButton>
       </div>

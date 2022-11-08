@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveTest</title>
+    <link rel="stylesheet" href="node_modules/@create-figma-plugin/ui/lib/css/theme.css" />
+    <link rel="stylesheet" href="node_modules/@create-figma-plugin/ui/lib/css/base.css" />
+    <link rel="stylesheet" href="node_modules/@create-figma-plugin/ui/lib/css/menu.css" />
+    <style>
+        #plugin-root {
+            max-width: 320px;
+            margin: auto;
+            border: 1px solid var(--figma-color-text);
+        }
+    </style>
+</head>
+<body  class="figma-dark">
+    <div id="create-figma-plugin"></div>
+    <script>
+        var __FIGMA_COMMAND__ = ""
+        var __SHOW_UI_DATA__ = {greeting: "Hallo DU"}
+    </script>
+    <script type="text/javascript" src="./build/ui.js"></script>
+</body>
+</html>

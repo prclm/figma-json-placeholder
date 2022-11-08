@@ -4,18 +4,28 @@ import {
   render,
   Container,
   Text,
+  Button,
   VerticalSpace,
   Divider,
 } from '@create-figma-plugin/ui'
-import { emit } from '@create-figma-plugin/utilities'
+import { emit, on } from '@create-figma-plugin/utilities'
 import { DevTools } from './components/DevTools'
+import { CreatePlaceholderForm } from './components/CreatePlaceholderForm'
+import { NodeData, PluginData } from './helpers/types'
 import '!./assets/ui.css'
 
 type PluginProps = {
-  greeting: string
+  selection: NodeData[]
+}
+type PluginState = {
+  selection: NodeData[]
 }
 class Plugin extends Component<PluginProps> {
   rootRef = createRef()
+
+  state: PluginState = {
+    selection: [],
+  }
 
   constructor(props: PluginProps) {
     super(props)
@@ -30,19 +40,60 @@ class Plugin extends Component<PluginProps> {
       })
     outputsize()
     new ResizeObserver(outputsize).observe(rootEl)
+    this.setState({
+      selection: this.props.selection,
+    })
+    on('SELECTION_DATA_UPDATED', (selection: NodeData[]) => {
+      console.log(selection)
+      this.setState({
+        selection: selection,
+      })
+    })
+  }
+
+  updatePluginData = (id: string, data: PluginData) => {
+    emit('UPDATE_PLUGIN_DATA', id, data)
+  }
+
+  getRoute = () => {
+    return this.state.selection.length > 0
+      ? this.state.selection[0]?.pluginData?.find(
+          (data) => data.key === 'route'
+        )
+      : undefined
   }
 
   render() {
+    console.log(this.state.selection)
+    const route = this.getRoute()
+    console.log('route', route)
     return (
       <div ref={this.rootRef} id="plugin-root">
-        <Container space="medium">
-          <VerticalSpace space="medium" />
-          <Text>Hallo {this.props.greeting}</Text>
-          <VerticalSpace space="medium" />
-        </Container>
-
+        <VerticalSpace space="medium" />
+        {typeof route !== 'undefined' && (
+          <Container space="medium">
+            <CreatePlaceholderForm />
+          </Container>
+        )}
+        {typeof route === 'undefined' && (
+          <Container space="medium">
+            <Button
+              onClick={() => {
+                if (this.state.selection.length === 0) return
+                this.updatePluginData(this.state.selection[0].id, {
+                  key: 'route',
+                  value: 'users',
+                })
+              }}
+            >
+              Create Route
+            </Button>
+          </Container>
+        )}
+        <VerticalSpace space="medium" />
         <Divider />
         <DevTools />
+        {JSON.stringify(this.state.selection)}
       </div>
     )
   }
