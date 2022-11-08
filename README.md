@@ -1,8 +1,10 @@
-# Hello World
+# Figma {JSON}Placeholder Plugin
 
-## Development guide
+**This Plugin is under development**
 
-*This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/).*
+Figma {JSON}Placeholder creates instances of components and replaces placeholders with (demo) data.
+
+## Installation guide
 
 ### Pre-requisites
 
@@ -46,3 +48,5 @@ Official docs and code samples from Figma:
 
 - [Plugin API docs](https://figma.com/plugin-docs/)
 - [`figma/plugin-samples`](https://github.com/figma/plugin-samples#readme)
+
+*This plugin is built with [Create Figma Plugin](https://yuanqing.github.io/create-figma-plugin/).*
