@@ -29,14 +29,14 @@ class Plugin extends Component<PluginProps> {
   rootRef = createRef()
 
   state: PluginState = {
-    selection: [],
+    selection: this.props.selection,
   }
 
   constructor(props: PluginProps) {
     super(props)
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const rootEl = this.rootRef.current
     const outputsize = () =>
       emit('RESIZE_WINDOW', {
@@ -45,11 +45,8 @@ class Plugin extends Component<PluginProps> {
       })
     outputsize()
     new ResizeObserver(outputsize).observe(rootEl)
-    this.setState({
-      selection: this.props.selection,
-    })
+
     on('SELECTION_DATA_UPDATED', (selection: NodeData[]) => {
-      console.log(selection)
       this.setState({
         selection: selection,
       })
@@ -70,6 +67,7 @@ class Plugin extends Component<PluginProps> {
 
   render() {
     const { clientStorage } = this.props
+    const { selection } = this.state
     return (
       <StorageContext.Provider value={clientStorage}>
       <div ref={this.rootRef} id="plugin-root">
@@ -96,8 +94,7 @@ class Plugin extends Component<PluginProps> {
         )}
         <VerticalSpace space="medium" />
         <Divider />
-        <DevTools />
-        {JSON.stringify(this.state.selection)}
+          <DevTools selection={selection} />
       </div>
       </StorageContext.Provider>
     )
