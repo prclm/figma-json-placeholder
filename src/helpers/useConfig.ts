@@ -7,16 +7,17 @@ const defaultUiSizes = {
 const placeholderApiUrl = 'https://jsonplaceholder.typicode.com'
 
 const placeholderApiRoutes: RouteConfig[] = [
-  { route: 'posts', subroutes: ['comments'] }, // 100 posts
-  { route: 'comments' }, // 500 comments
-  { route: 'albums', subroutes: ['photos'] }, // 100 albums
-  { route: 'photos' }, // 5000 photos
-  { route: 'todos' }, // 200 todos
-  { route: 'users', subroutes: ['albums', 'todos', 'posts'] }, // 10 users
+  { route: 'posts', subroutes: ['comments'], exampleId: '1' }, // 100 posts
+  { route: 'comments', exampleId: '1' }, // 500 comments
+  { route: 'albums', subroutes: ['photos'], exampleId: '1' }, // 100 albums
+  { route: 'photos', exampleId: '1' }, // 5000 photos
+  { route: 'todos', exampleId: '1' }, // 200 todos
+  { route: 'users', subroutes: ['albums', 'todos', 'posts'], exampleId: '1' }, // 10 users
 ]
 
 const useConfig = () => {
   const defaultApi: ApiConfig = {
+    name: '{JSON}Placeholder',
     url: placeholderApiUrl,
     routes: placeholderApiRoutes,
   }

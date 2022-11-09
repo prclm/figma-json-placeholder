@@ -1,17 +1,13 @@
-export type RouteNames =
-  | 'posts'
-  | 'comments'
-  | 'albums'
-  | 'photos'
-  | 'todos'
-  | 'users'
+export type RouteNames = 'posts' | 'comments' | 'albums' | 'photos' | 'todos' | 'users'
 
 export interface RouteConfig {
   route: RouteNames
+  exampleId: string
   subroutes?: RouteNames[]
 }
 
 export interface ApiConfig {
+  name: string
   url: string
   routes: RouteConfig[]
 }
