@@ -9,15 +9,18 @@ import useConfig from './helpers/useConfig'
 import usePlaceholder from './helpers/usePlaceholder'
 import { NotifyMessage, PluginError } from './helpers/useErrorNotify'
 import { getSelectionData, updateSelectionData } from './helpers/scene-nodes'
+import { StorageValue, getClientStorage } from './helpers/useStorage'
 
-export default () => {
+export default async () => {
   const { defaultUiSizes, defaultApi } = useConfig()
   const { createInstances } = usePlaceholder(defaultApi)
+  const clientStorage = await getClientStorage()
 
   showUI(
     { width: defaultUiSizes.width, height: defaultUiSizes.height },
     {
       selection: getSelectionData(),
+      clientStorage: clientStorage,
     }
   )
 
@@ -33,6 +36,9 @@ export default () => {
   on('UPDATE_PLUGIN_DATA', (id, pluginData) => {
     figma.getNodeById(id)?.setPluginData(pluginData.key, pluginData.value)
     updateSelectionData()
+  })
+  on('SET_CLIENT_STORAGE', (key: string, value: StorageValue) => {
+    figma.clientStorage.setAsync(key, value)
   })
 
   figma.on('selectionchange', () => updateSelectionData())

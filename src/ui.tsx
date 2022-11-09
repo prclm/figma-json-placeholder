@@ -13,13 +13,18 @@ import { DevTools } from './components/DevTools'
 import { CreatePlaceholderForm } from './components/CreatePlaceholderForm'
 import { NodeData, PluginData } from './helpers/types'
 import '!./assets/ui.css'
+import useStorage, { ClientStorage } from './helpers/useStorage'
 
 type PluginProps = {
   selection: NodeData[]
+  clientStorage: ClientStorage
 }
 type PluginState = {
   selection: NodeData[]
 }
+
+const { StorageContext } = useStorage()
+
 class Plugin extends Component<PluginProps> {
   rootRef = createRef()
 
@@ -64,10 +69,9 @@ class Plugin extends Component<PluginProps> {
   }
 
   render() {
-    console.log(this.state.selection)
-    const route = this.getRoute()
-    console.log('route', route)
+    const { clientStorage } = this.props
     return (
+      <StorageContext.Provider value={clientStorage}>
       <div ref={this.rootRef} id="plugin-root">
         <VerticalSpace space="medium" />
         {typeof route !== 'undefined' && (
@@ -95,6 +99,7 @@ class Plugin extends Component<PluginProps> {
         <DevTools />
         {JSON.stringify(this.state.selection)}
       </div>
+      </StorageContext.Provider>
     )
   }
 }
