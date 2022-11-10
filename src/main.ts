@@ -1,8 +1,4 @@
-import {
-  on,
-  showUI,
-  getSelectedNodesOrAllNodes,
-} from '@create-figma-plugin/utilities'
+import { on, showUI, getSelectedNodesOrAllNodes } from '@create-figma-plugin/utilities'
 import { FormState } from './components/CreatePlaceholderForm'
 
 import useConfig from './helpers/useConfig'
@@ -33,8 +29,8 @@ export default async () => {
   on('CREATE_PLACEHOLDER_INSTANCES', (formData: FormState) => {
     createInstances(formData).catch((error) => handleError(error))
   })
-  on('UPDATE_PLUGIN_DATA', (id, pluginData) => {
-    figma.getNodeById(id)?.setPluginData(pluginData.key, pluginData.value)
+  on('UPDATE_NODE_PLUGIN_DATA', (id, pluginData) => {
+    figma.getNodeById(id)?.setPluginData(pluginData.key, JSON.stringify(pluginData.value))
     updateSelectionData()
   })
   on('SET_CLIENT_STORAGE', (key: string, value: StorageValue) => {

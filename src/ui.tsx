@@ -1,18 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { h, Component, createRef } from 'preact'
-import {
-  render,
-  Container,
-  Text,
-  Button,
-  VerticalSpace,
-  Divider,
-} from '@create-figma-plugin/ui'
+import { h, Component, createRef, JSX } from 'preact'
+import { render, Container, VerticalSpace, Divider, TabsOption, Tabs } from '@create-figma-plugin/ui'
 import { emit, on } from '@create-figma-plugin/utilities'
 import { DevTools } from './components/DevTools'
 import { CreatePlaceholderForm } from './components/CreatePlaceholderForm'
-import { NodeData, PluginData } from './helpers/types'
+import { NodeData } from './helpers/types'
 import '!./assets/ui.css'
+import PlaceholderProvider from './components/PlaceholderProvider'
 import useStorage, { ClientStorage } from './helpers/useStorage'
 
 type PluginProps = {
@@ -21,6 +15,7 @@ type PluginProps = {
 }
 type PluginState = {
   selection: NodeData[]
+  view: string
 }
 
 const { StorageContext } = useStorage()
@@ -30,11 +25,35 @@ class Plugin extends Component<PluginProps> {
 
   state: PluginState = {
     selection: this.props.selection,
+    view: 'Platzhalter zuweisen',
   }
 
   constructor(props: PluginProps) {
     super(props)
   }
+
+  views: Array<TabsOption> = [
+    {
+      value: 'Platzhalter zuweisen',
+      children: (
+        <Container space="medium">
+          <VerticalSpace space="medium" />
+          <PlaceholderProvider selection={this.state.selection} />
+        </Container>
+      ),
+    },
+    {
+      value: 'Daten generieren',
+      children: (
+        <Container space="medium">
+          <VerticalSpace space="medium" />
+          <CreatePlaceholderForm />
+        </Container>
+      ),
+    },
+  ]
+
+  onViewChange = (e: JSX.TargetedEvent<HTMLInputElement>) => this.setState({ view: e.currentTarget.value })
 
   componentDidMount(): void {
     const rootEl = this.rootRef.current
@@ -53,49 +72,19 @@ class Plugin extends Component<PluginProps> {
     })
   }
 
-  updatePluginData = (id: string, data: PluginData) => {
-    emit('UPDATE_PLUGIN_DATA', id, data)
-  }
-
-  getRoute = () => {
-    return this.state.selection.length > 0
-      ? this.state.selection[0]?.pluginData?.find(
-          (data) => data.key === 'route'
-        )
-      : undefined
-  }
-
   render() {
     const { clientStorage } = this.props
-    const { selection } = this.state
+    const { selection, view } = this.state
     return (
       <StorageContext.Provider value={clientStorage}>
-      <div ref={this.rootRef} id="plugin-root">
-        <VerticalSpace space="medium" />
-        {typeof route !== 'undefined' && (
-          <Container space="medium">
-            <CreatePlaceholderForm />
-          </Container>
-        )}
-        {typeof route === 'undefined' && (
-          <Container space="medium">
-            <Button
-              onClick={() => {
-                if (this.state.selection.length === 0) return
-                this.updatePluginData(this.state.selection[0].id, {
-                  key: 'route',
-                  value: 'users',
-                })
-              }}
-            >
-              Create Route
-            </Button>
-          </Container>
-        )}
-        <VerticalSpace space="medium" />
-        <Divider />
+        <div ref={this.rootRef} id="plugin-root">
+          <Tabs onChange={this.onViewChange} options={this.views} value={view} />
+
+          <VerticalSpace space="medium" />
+
+          <Divider />
           <DevTools selection={selection} />
-      </div>
+        </div>
       </StorageContext.Provider>
     )
   }
